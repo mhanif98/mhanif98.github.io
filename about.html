@@ -495,14 +495,14 @@
 	
 	<script>
 		// Memuat header.html ke dalam elemen dengan id 'header'
-		fetch('template/header.html')
-		  .then(response => response.text())
-		  .then(data => {
-			document.getElementById('header').innerHTML = data;
-		  })
-		  .catch(error => {
-			console.error('Error loading header:', error);
-		  });
+		// fetch('template/header.html')
+		//   .then(response => response.text())
+		//   .then(data => {
+		// 	document.getElementById('header').innerHTML = data;
+		//   })
+		//   .catch(error => {
+		// 	console.error('Error loading header:', error);
+		//   });
 		
 		// Memuat navbar.html ke dalam elemen dengan id 'navbar'
 		fetch('template/navbar.html')
@@ -526,24 +526,5 @@
 		  
 	</script>
 	
-	<!-- jam -->
-	<script>
-	  // Function ini dijalankan ketika Halaman ini dibuka pada browser
-	//   $(function(){
-	//   	setInterval(timestamp, 1000);//fungsi yang dijalan setiap detik, 1000 = 1 detik
-	//   });
-
-	  //Fungi ajax untuk Menampilkan Jam dengan mengakses File ajax_timestamp.php
-	//   function timestamp() {
-	//   $.ajax({
-	// 		url: 'jam_logic.php',
-	// 		success: function(data) {
-	// 			$('#timestamp').html(data);
-	// 			// alert(data);
-	// 		},
-	// 	});
-	//   }
-	</script>
-
 </body>
 </html>
