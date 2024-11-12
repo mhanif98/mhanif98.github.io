@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Gambar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        h1 {
+            color: #333;
+        }
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px); /* Membuat grid 3x3 */
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .puzzle-piece {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            background-size: 300px 300px; /* Ukuran gambar aslinya */
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .success {
+            color: green;
+        }
+        .fail {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Puzzle Gambar</h1>
+<div class="puzzle-container" id="puzzleContainer">
+    <!-- Potongan puzzle akan muncul di sini -->
+</div>
+<p class="message" id="message"></p>
+
+<script>
+    // Gambar asli (gambar ini bisa diganti dengan gambar yang sesuai)
+    const imageUrl = 'https://via.placeholder.com/300'; // Ganti dengan URL gambar kamu
+    const rows = 3;
+    const cols = 3;
+    const totalPieces = rows * cols;
+
+    let puzzlePieces = [];
+    let currentPositions = [];
+
+    // Membagi gambar menjadi potongan-potongan
+    function generatePuzzlePieces() {
+        for (let i = 0; i < totalPieces; i++) {
+            const row = Math.floor(i / cols);
+            const col = i % cols;
+
+            puzzlePieces.push({
+                id: i,
+                row: row,
+                col: col,
+                piece: createPuzzlePiece(i, row, col)
+            });
+        }
+        shufflePieces(); // Mengacak posisi potongan
+    }
+
+    // Membuat elemen gambar puzzle
+    function createPuzzlePiece(id, row, col) {
+        const piece = document.createElement('div');
+        piece.classList.add('puzzle-piece');
+        piece.style.backgroundImage = `url(${imageUrl})`;
+        piece.style.backgroundPosition = `-${col * 100}px -${row * 100}px`; // Memotong gambar
+        piece.setAttribute('draggable', 'true');
+        piece.setAttribute('data-id', id);
+
+        piece.addEventListener('dragstart', dragStart);
+        piece.addEventListener('dragover', dragOver);
+        piece.addEventListener('drop', dropPiece);
+        piece.addEventListener('dragenter', dragEnter);
+        piece.addEventListener('dragleave', dragLeave);
+
+        return piece;
+    }
+
+    // Mengacak potongan gambar
+    function shufflePieces() {
+        currentPositions = [...puzzlePieces];
+        currentPositions.sort(() => Math.random() - 0.5); // Mengacak urutan
+        renderPuzzle();
+    }
+
+    // Render puzzle ke dalam container
+    function renderPuzzle() {
+        const puzzleContainer = document.getElementById('puzzleContainer');
+        puzzleContainer.innerHTML = '';
+        currentPositions.forEach(piece => {
+            puzzleContainer.appendChild(piece.piece);
+        });
+    }
+
+    // Fungsi drag start
+    function dragStart(e) {
+        e.dataTransfer.setData('text', e.target.getAttribute('data-id'));
+    }
+
+    // Fungsi drag over
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    // Fungsi untuk menandai area drop
+    function dragEnter(e) {
+        e.preventDefault();
+        e.target.style.backgroundColor = '#ccc';
+    }
+
+    function dragLeave(e) {
+        e.target.style.backgroundColor = '';
+    }
+
+    // Fungsi untuk meletakkan potongan
+    function dropPiece(e) {
+        e.preventDefault();
+        e.target.style.backgroundColor = '';
+
+        const draggedId = e.dataTransfer.getData('text');
+        const draggedPiece = document.querySelector(`[data-id="${draggedId}"]`);
+        const targetPiece = e.target;
+
+        if (draggedPiece !== targetPiece) {
+            const draggedIndex = currentPositions.findIndex(piece => piece.id === parseInt(draggedId));
+            const targetIndex = currentPositions.findIndex(piece => piece.id === parseInt(targetPiece.getAttribute('data-id')));
+
+            // Tukar posisi kedua potongan
+            [currentPositions[draggedIndex], currentPositions[targetIndex]] = [currentPositions[targetIndex], currentPositions[draggedIndex]];
+
+            renderPuzzle();
+            checkPuzzleCompletion();
+        }
+    }
+
+    // Cek apakah puzzle sudah selesai
+    function checkPuzzleCompletion() {
+        let isCompleted = true;
+        for (let i = 0; i < totalPieces; i++) {
+            if (currentPositions[i].id !== i) {
+                isCompleted = false;
+                break;
+            }
+        }
+        if (isCompleted) {
+            document.getElementById('message').textContent = 'Selamat! Puzzle selesai!';
+            document.getElementById('message').classList.add('success');
+            document.getElementById('message').classList.remove('fail');
+        } else {
+            document.getElementById('message').textContent = '';
+        }
+    }
+
+    // Memulai permainan
+    function startGame() {
+        generatePuzzlePieces();
+    }
+
+    // Mulai permainan saat halaman dimuat
+    window.onload = startGame;
+</script>
+
+</body>
+</html>

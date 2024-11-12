@@ -1,0 +1,192 @@
+<!-- quiz mtk -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permainan Tebak Jawaban Matematika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .scoreboard {
+            margin-top: 20px;
+        }
+        .timer {
+            font-size: 24px;
+            color: #333;
+        }
+        .incorrect {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
+        #startButton {
+            font-size: 18px;
+            padding: 15px 30px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #startButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Permainan Tebak Jawaban Matematika</h1>
+    <button id="startButton" onclick="startGame()">Mulai Permainan</button>
+    <div id="gameArea" style="display: none;">
+        <h3 id="question"></h3>
+        <input type="number" id="answer" placeholder="Jawaban">
+        <button onclick="checkAnswer()">Kirim Jawaban</button>
+        <p class="timer" id="timer"></p>
+        <p class="message" id="message"></p>
+        <div class="scoreboard">
+            <h4>Poin: <span id="score">0</span></h4>
+        </div>
+    </div>
+</div>
+
+<script>
+    let score = 0;
+    let currentQuestion = {};
+    let timeLeft = 10;
+    let timerInterval;
+    let gameStarted = false;
+
+    // Fungsi untuk memulai permainan
+    function startGame() {
+        document.getElementById('startButton').style.display = 'none'; // Hide start button
+        document.getElementById('gameArea').style.display = 'block'; // Show game area
+        score = 0;
+        document.getElementById('score').textContent = score;
+        nextQuestion();
+    }
+
+    // Fungsi untuk menghasilkan soal matematika acak
+    function generateQuestion() {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+
+        let question = '';
+        let correctAnswer;
+
+        switch (operator) {
+            case '+':
+                question = `${num1} + ${num2}`;
+                correctAnswer = num1 + num2;
+                break;
+            case '-':
+                question = `${num1} - ${num2}`;
+                correctAnswer = num1 - num2;
+                break;
+            case '*':
+                question = `${num1} * ${num2}`;
+                correctAnswer = num1 * num2;
+                break;
+        }
+
+        currentQuestion = {
+            question: question,
+            correctAnswer: correctAnswer
+        };
+
+        document.getElementById('question').textContent = `Apa hasil dari ${question}?`;
+    }
+
+    // Fungsi untuk memulai countdown timer
+    function startTimer() {
+        timeLeft = 10;
+        document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+
+        timerInterval = setInterval(function() {
+            timeLeft--;
+            document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                showMessage('Waktu habis! Jawaban salah.', 'incorrect');
+                setTimeout(nextQuestion, 1500);
+            }
+        }, 1000);
+    }
+
+    // Fungsi untuk memeriksa jawaban
+    function checkAnswer() {
+        const playerAnswer = parseInt(document.getElementById('answer').value);
+
+        if (playerAnswer === currentQuestion.correctAnswer) {
+            score += timeLeft; // Tambahkan skor berdasarkan waktu tersisa
+            showMessage('Selamat! Jawaban Anda benar.', 'correct');
+        } else {
+            showMessage('Jawaban salah. Coba lagi!', 'incorrect');
+        }
+
+        document.getElementById('score').textContent = score;
+        setTimeout(nextQuestion, 1500); // Pindah ke soal berikutnya setelah jeda
+    }
+
+    // Fungsi untuk menampilkan pesan
+    function showMessage(msg, type) {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = msg;
+        messageElement.className = `message ${type}`;
+    }
+
+    // Fungsi untuk melanjutkan ke soal berikutnya
+    function nextQuestion() {
+        generateQuestion();
+        startTimer();
+        document.getElementById('answer').value = '';
+    }
+</script>
+
+</body>
+</html>
