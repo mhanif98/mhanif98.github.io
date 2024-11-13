@@ -126,7 +126,7 @@
                     <!-- <div class="col-lg-12"> -->
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <h5 class="panel-title"><b>Permainan Tebak Jawaban Matematika</b></h5>
+                                <h5 class="panel-title"><b>Play With Me!</b></h5>
                                 <div class="heading-elements">
                                     <ul class="icons-list">
                                     <li><a data-action="collapse"></a></li>
@@ -137,10 +137,10 @@
                             </div>
             
                             <div class="panel-body" style="text-align: center;">
-                                <button id="startButton" onclick="startGame()">Mulai Permainan</button>
+                                <button id="startButton" onclick="startGame()">Start </button>
                                 <div id="gameArea" style="display: none;">
                                     <h3 id="question"></h3>
-                                    <input type="number" id="answer" placeholder="Jawaban">
+                                    <input type="number" id="answer" placeholder="Answer">
                                     <button onclick="checkAnswer()">Submit</button>
                                     <p class="timer" id="timer"></p>
                                     <p class="message" id="message"></p>
@@ -274,14 +274,14 @@
                 correctAnswer: correctAnswer
             };
 
-            document.getElementById('question').textContent = `Apa hasil dari ${question}?`;
+            document.getElementById('question').textContent = `What Is The Result Of ${question}?`;
         }
 
         // Fungsi untuk memulai countdown timer
         function startTimer() {
             timeLeft = 10;
             timeQuiz = 20;
-            document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+            document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
 
             // Bersihkan interval timer jika sudah ada timer yang sedang berjalan
             if (timerInterval) {
@@ -291,13 +291,13 @@
             timerInterval = setInterval(function() {
                 timeLeft--;
                 // timeQuiz--;
-                document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+                document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
                 // console.log("timeLeft", timeLeft);
                 // console.log("timeQuiz", timeQuiz);
 
                 if (timeLeft === 0) {
                     clearInterval(timerInterval);
-                    showMessage('Waktu habis! Jawaban salah.', 'incorrect');
+                    showMessage('Time Is Up!', 'incorrect');
                     setTimeout(nextQuestion, 1500);
                 }
                 // if (timeQuiz === 0) {
@@ -335,9 +335,9 @@
 
             if (playerAnswer === currentQuestion.correctAnswer) {
                 score += timeLeft; // Tambahkan skor berdasarkan waktu tersisa
-                showMessage('Selamat! Jawaban Anda benar.', 'correct');
+                showMessage('Correct! ', 'correct');
             } else {
-                showMessage('Jawaban salah. Coba lagi!', 'incorrect');
+                showMessage('Incorrect. Try Again!', 'incorrect');
             }
 
             document.getElementById('score').textContent = score;
@@ -378,8 +378,8 @@
         const now = new Date();
     
         // Format hari, bulan, tahun, jam, menit, detik
-        const hari = now.toLocaleString('id-ID', { weekday: 'long' });
-        const bulan = now.toLocaleString('id-ID', { month: 'long' });
+        const hari = now.toLocaleString('en-US', { weekday: 'long' });
+        const bulan = now.toLocaleString('en-US', { month: 'long' });
         const tanggal = now.getDate();
         const tahun = now.getFullYear();
         let jam = now.getHours();

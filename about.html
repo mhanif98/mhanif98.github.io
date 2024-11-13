@@ -550,8 +550,8 @@
         const now = new Date();
     
         // Format hari, bulan, tahun, jam, menit, detik
-        const hari = now.toLocaleString('id-ID', { weekday: 'long' });
-        const bulan = now.toLocaleString('id-ID', { month: 'long' });
+        const hari = now.toLocaleString('en-US', { weekday: 'long' });
+        const bulan = now.toLocaleString('en-US', { month: 'long' });
         const tanggal = now.getDate();
         const tahun = now.getFullYear();
         let jam = now.getHours();
