@@ -1,4 +1,3 @@
-<!-- quiz mtk -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,6 +97,7 @@
     let currentQuestion = {};
     let timeLeft = 10;
     let timerInterval;
+    // let timerQuizInterval;
     let gameStarted = false;
 
     // Fungsi untuk memulai permainan
@@ -144,20 +144,55 @@
     // Fungsi untuk memulai countdown timer
     function startTimer() {
         timeLeft = 10;
+        timeQuiz = 20;
         document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+
+        // Bersihkan interval timer jika sudah ada timer yang sedang berjalan
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
 
         timerInterval = setInterval(function() {
             timeLeft--;
+            // timeQuiz--;
             document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+            // console.log("timeLeft", timeLeft);
+            // console.log("timeQuiz", timeQuiz);
 
             if (timeLeft === 0) {
                 clearInterval(timerInterval);
                 showMessage('Waktu habis! Jawaban salah.', 'incorrect');
                 setTimeout(nextQuestion, 1500);
             }
+            // if (timeQuiz === 0) {
+            //     clearInterval(timerInterval);  // Hentikan interval timer
+            //     // clearInterval(timerQuizInterval);  // Hentikan interval timer
+            //     showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
+            //     endQuiz();  // Fungsi untuk mengakhiri kuis
+            // }
         }, 1000);
+
+        // timerQuizInterval = setInterval(function() {
+        //     timeQuiz--;
+        //     console.log("timeQuiz", timeQuiz);
+
+        //     if (timeQuiz === 0) {
+        //         clearInterval(timerInterval);  // Hentikan interval timer
+        //         clearInterval(timerQuizInterval);  // Hentikan interval timer
+        //         showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
+        //         endQuiz();  // Fungsi untuk mengakhiri kuis
+        //     }
+        // }, 1000);
     }
 
+    // Fungsi untuk mengakhiri kuis
+    function endQuiz() {
+        // Menampilkan pesan selesai dan hasil akhir
+        showMessage(`Kuis selesai! Skor akhir Anda adalah: ${score}`, 'incorrect');
+        // document.getElementById('gameArea').style.display = 'none'; // Menyembunyikan area permainan
+        // document.getElementById('startButton').style.display = 'block'; // Menampilkan tombol "Mulai" untuk memulai kuis lagi
+    }
+    
     // Fungsi untuk memeriksa jawaban
     function checkAnswer() {
         const playerAnswer = parseInt(document.getElementById('answer').value);
@@ -170,7 +205,9 @@
         }
 
         document.getElementById('score').textContent = score;
+        // Setelah memberikan umpan balik, lanjutkan ke soal berikutnya
         setTimeout(nextQuestion, 1500); // Pindah ke soal berikutnya setelah jeda
+        // clearMessage('','');
     }
 
     // Fungsi untuk menampilkan pesan
@@ -178,6 +215,16 @@
         const messageElement = document.getElementById('message');
         messageElement.textContent = msg;
         messageElement.className = `message ${type}`;
+
+        // Hapus pesan setelah 1.5 detik (1500ms)
+        setTimeout(clearMessage, 1500);
+    }
+
+    // Fungsi untuk menampilkan pesan
+    function clearMessage() {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = '';
+        messageElement.className = `message`;
     }
 
     // Fungsi untuk melanjutkan ke soal berikutnya
@@ -186,6 +233,7 @@
         startTimer();
         document.getElementById('answer').value = '';
     }
+
 </script>
 
 </body>
