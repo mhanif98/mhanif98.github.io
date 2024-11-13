@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permainan Tebak Jawaban Matematika</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HanifU</title>
+    
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/core.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/components.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    
+    <!-- Core JS files -->
+    <script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
+    <!-- /core JS files -->
+    
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="assets/js/plugins/velocity/velocity.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/velocity/velocity.ui.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/prism.min.js"></script>
+    
+    <script type="text/javascript" src="assets/js/core/app.js"></script>
+    <script type="text/javascript" src="assets/js/pages/animations_velocity_examples.js"></script>
+    <script type="text/javascript" src="assets/js/pages/general_widgets_content.js"></script>
+    <!-- /theme JS files -->
+    <link rel="Shortcut icon" type="text/css" href="img/logo.JPG">
+
     <style>
-        body {
+        /* body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             display: flex;
@@ -14,21 +47,21 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
-        }
-        .container {
+        } */
+        /* .container {
             text-align: center;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+        } */
         h1 {
             color: #333;
         }
         input[type="number"] {
             padding: 10px;
             font-size: 16px;
-            width: 100px;
+            width: 120px;
             text-align: center;
             margin: 20px 0;
         }
@@ -42,7 +75,7 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #045908;
         }
         .message {
             font-size: 18px;
@@ -71,170 +104,273 @@
             cursor: pointer;
         }
         #startButton:hover {
-            background-color: #0056b3;
+            background-color: #074282;
         }
     </style>
 </head>
-<body>
 
-<div class="container">
-    <h1>Permainan Tebak Jawaban Matematika</h1>
-    <button id="startButton" onclick="startGame()">Mulai Permainan</button>
-    <div id="gameArea" style="display: none;">
-        <h3 id="question"></h3>
-        <input type="number" id="answer" placeholder="Jawaban">
-        <button onclick="checkAnswer()">Kirim Jawaban</button>
-        <p class="timer" id="timer"></p>
-        <p class="message" id="message"></p>
-        <div class="scoreboard">
-            <h4>Poin: <span id="score">0</span></h4>
+<body class="navbar-bottom" style="background-image: url(img/thh.png);">
+
+    <!-- Page header -->
+    <div id="navbar"></div>
+    <!-- /page header -->
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <div class="content-wrapper">
+                <!-- <div class="row"> -->
+                    <!-- <div class="col-lg-12"> -->
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title"><b>Permainan Tebak Jawaban Matematika</b></h5>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="reload"></a></li>
+                                    <li><a data-action="close"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+            
+                            <div class="panel-body" style="text-align: center;">
+                                <button id="startButton" onclick="startGame()">Mulai Permainan</button>
+                                <div id="gameArea" style="display: none;">
+                                    <h3 id="question"></h3>
+                                    <input type="number" id="answer" placeholder="Jawaban">
+                                    <button onclick="checkAnswer()">Submit</button>
+                                    <p class="timer" id="timer"></p>
+                                    <p class="message" id="message"></p>
+                                    <div class="scoreboard">
+                                        <h4>Poin: <span id="score">0</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+            
+                        </div>
+
+                    <!-- </div> -->
+                <!-- </div> -->
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    let score = 0;
-    let currentQuestion = {};
-    let timeLeft = 10;
-    let timerInterval;
-    // let timerQuizInterval;
-    let gameStarted = false;
+    <!-- Footer -->
+    <div class="navbar navbar-default navbar-fixed-bottom footer">
+        <ul class="nav navbar-nav visible-xs-block">
+        <li><a class="text-center collapsed" data-toggle="collapse" data-target="#footer"><i class="icon-circle-up2"></i></a></li>
+        </ul>
 
-    // Fungsi untuk memulai permainan
-    function startGame() {
-        document.getElementById('startButton').style.display = 'none'; // Hide start button
-        document.getElementById('gameArea').style.display = 'block'; // Show game area
-        score = 0;
-        document.getElementById('score').textContent = score;
-        nextQuestion();
-    }
+        <div class="navbar-collapse collapse" id="footer">
+        <div class="navbar-text">
+            &copy; 2020 - Now <a href="#" class="navbar-link">HanifU Web App</a> by <b>Muhammad Hanif</b>
+        </div>
 
-    // Fungsi untuk menghasilkan soal matematika acak
-    function generateQuestion() {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10) + 1;
-        const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+            <li><a href="#">v1.1</a></li>
+            <!-- <li><a href="#">Terms</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=6289650546948&text=Hai%20Saya%20Hanif">Contact</a></li> -->
+            </ul>
+        </div>
+        </div>
+    </div>
+    <!-- /footer -->
 
-        let question = '';
-        let correctAnswer;
-
-        switch (operator) {
-            case '+':
-                question = `${num1} + ${num2}`;
-                correctAnswer = num1 + num2;
-                break;
-            case '-':
-                question = `${num1} - ${num2}`;
-                correctAnswer = num1 - num2;
-                break;
-            case '*':
-                question = `${num1} * ${num2}`;
-                correctAnswer = num1 * num2;
-                break;
-        }
-
-        currentQuestion = {
-            question: question,
-            correctAnswer: correctAnswer
-        };
-
-        document.getElementById('question').textContent = `Apa hasil dari ${question}?`;
-    }
-
-    // Fungsi untuk memulai countdown timer
-    function startTimer() {
-        timeLeft = 10;
-        timeQuiz = 20;
-        document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
-
-        // Bersihkan interval timer jika sudah ada timer yang sedang berjalan
-        if (timerInterval) {
-            clearInterval(timerInterval);
-        }
-
-        timerInterval = setInterval(function() {
-            timeLeft--;
-            // timeQuiz--;
-            document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
-            // console.log("timeLeft", timeLeft);
-            // console.log("timeQuiz", timeQuiz);
-
-            if (timeLeft === 0) {
-                clearInterval(timerInterval);
-                showMessage('Waktu habis! Jawaban salah.', 'incorrect');
-                setTimeout(nextQuestion, 1500);
-            }
-            // if (timeQuiz === 0) {
-            //     clearInterval(timerInterval);  // Hentikan interval timer
-            //     // clearInterval(timerQuizInterval);  // Hentikan interval timer
-            //     showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
-            //     endQuiz();  // Fungsi untuk mengakhiri kuis
-            // }
-        }, 1000);
-
-        // timerQuizInterval = setInterval(function() {
-        //     timeQuiz--;
-        //     console.log("timeQuiz", timeQuiz);
-
-        //     if (timeQuiz === 0) {
-        //         clearInterval(timerInterval);  // Hentikan interval timer
-        //         clearInterval(timerQuizInterval);  // Hentikan interval timer
-        //         showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
-        //         endQuiz();  // Fungsi untuk mengakhiri kuis
-        //     }
-        // }, 1000);
-    }
-
-    // Fungsi untuk mengakhiri kuis
-    function endQuiz() {
-        // Menampilkan pesan selesai dan hasil akhir
-        showMessage(`Kuis selesai! Skor akhir Anda adalah: ${score}`, 'incorrect');
-        // document.getElementById('gameArea').style.display = 'none'; // Menyembunyikan area permainan
-        // document.getElementById('startButton').style.display = 'block'; // Menampilkan tombol "Mulai" untuk memulai kuis lagi
-    }
     
-    // Fungsi untuk memeriksa jawaban
-    function checkAnswer() {
-        const playerAnswer = parseInt(document.getElementById('answer').value);
+    <!-- <div class="container">
+        <h1>Permainan Tebak Jawaban Matematika</h1>
+        <button id="startButton" onclick="startGame()">Mulai Permainan</button>
+        <div id="gameArea" style="display: none;">
+            <h3 id="question"></h3>
+            <input type="number" id="answer" placeholder="Jawaban">
+            <button onclick="checkAnswer()">Kirim Jawaban</button>
+            <p class="timer" id="timer"></p>
+            <p class="message" id="message"></p>
+            <div class="scoreboard">
+                <h4>Poin: <span id="score">0</span></h4>
+            </div>
+        </div>
+    </div> -->
 
-        if (playerAnswer === currentQuestion.correctAnswer) {
-            score += timeLeft; // Tambahkan skor berdasarkan waktu tersisa
-            showMessage('Selamat! Jawaban Anda benar.', 'correct');
-        } else {
-            showMessage('Jawaban salah. Coba lagi!', 'incorrect');
+    <script>
+        // Memuat header.html ke dalam elemen dengan id 'header'
+        // fetch('template/header.html')
+        //   .then(response => response.text())
+        //   .then(data => {
+        //     document.getElementById('header').innerHTML = data;
+        //   })
+        //   .catch(error => {
+        //     console.error('Error loading header:', error);
+        //   });
+        
+        // Memuat navbar.html ke dalam elemen dengan id 'navbar'
+        fetch('template/navbar.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+          })
+          .catch(error => {
+            console.error('Error loading navbar:', error);
+          });
+    
+        // Memuat footer.html ke dalam elemen dengan id 'footer'
+        // fetch('template/footer.html')
+        //   .then(response => response.text())
+        //   .then(data => {
+        //     document.getElementById('footer').innerHTML = data;
+        //   })
+        //   .catch(error => {
+        //     console.error('Error loading footer:', error);
+        //   });
+          
+      </script>
+    <script>
+        let score = 0;
+        let currentQuestion = {};
+        let timeLeft = 10;
+        let timerInterval;
+        // let timerQuizInterval;
+        let gameStarted = false;
+
+        // Fungsi untuk memulai permainan
+        function startGame() {
+            document.getElementById('startButton').style.display = 'none'; // Hide start button
+            document.getElementById('gameArea').style.display = 'block'; // Show game area
+            score = 0;
+            document.getElementById('score').textContent = score;
+            nextQuestion();
         }
 
-        document.getElementById('score').textContent = score;
-        // Setelah memberikan umpan balik, lanjutkan ke soal berikutnya
-        setTimeout(nextQuestion, 1500); // Pindah ke soal berikutnya setelah jeda
-        // clearMessage('','');
-    }
+        // Fungsi untuk menghasilkan soal matematika acak
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
 
-    // Fungsi untuk menampilkan pesan
-    function showMessage(msg, type) {
-        const messageElement = document.getElementById('message');
-        messageElement.textContent = msg;
-        messageElement.className = `message ${type}`;
+            let question = '';
+            let correctAnswer;
 
-        // Hapus pesan setelah 1.5 detik (1500ms)
-        setTimeout(clearMessage, 1500);
-    }
+            switch (operator) {
+                case '+':
+                    question = `${num1} + ${num2}`;
+                    correctAnswer = num1 + num2;
+                    break;
+                case '-':
+                    question = `${num1} - ${num2}`;
+                    correctAnswer = num1 - num2;
+                    break;
+                case '*':
+                    question = `${num1} * ${num2}`;
+                    correctAnswer = num1 * num2;
+                    break;
+            }
 
-    // Fungsi untuk menampilkan pesan
-    function clearMessage() {
-        const messageElement = document.getElementById('message');
-        messageElement.textContent = '';
-        messageElement.className = `message`;
-    }
+            currentQuestion = {
+                question: question,
+                correctAnswer: correctAnswer
+            };
 
-    // Fungsi untuk melanjutkan ke soal berikutnya
-    function nextQuestion() {
-        generateQuestion();
-        startTimer();
-        document.getElementById('answer').value = '';
-    }
+            document.getElementById('question').textContent = `Apa hasil dari ${question}?`;
+        }
 
-</script>
+        // Fungsi untuk memulai countdown timer
+        function startTimer() {
+            timeLeft = 10;
+            timeQuiz = 20;
+            document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+
+            // Bersihkan interval timer jika sudah ada timer yang sedang berjalan
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                // timeQuiz--;
+                document.getElementById('timer').textContent = `Waktu: ${timeLeft}s`;
+                // console.log("timeLeft", timeLeft);
+                // console.log("timeQuiz", timeQuiz);
+
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    showMessage('Waktu habis! Jawaban salah.', 'incorrect');
+                    setTimeout(nextQuestion, 1500);
+                }
+                // if (timeQuiz === 0) {
+                //     clearInterval(timerInterval);  // Hentikan interval timer
+                //     // clearInterval(timerQuizInterval);  // Hentikan interval timer
+                //     showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
+                //     endQuiz();  // Fungsi untuk mengakhiri kuis
+                // }
+            }, 1000);
+
+            // timerQuizInterval = setInterval(function() {
+            //     timeQuiz--;
+            //     console.log("timeQuiz", timeQuiz);
+
+            //     if (timeQuiz === 0) {
+            //         clearInterval(timerInterval);  // Hentikan interval timer
+            //         clearInterval(timerQuizInterval);  // Hentikan interval timer
+            //         showMessage('Waktu total habis! Kuis selesai.', 'incorrect');
+            //         endQuiz();  // Fungsi untuk mengakhiri kuis
+            //     }
+            // }, 1000);
+        }
+
+        // Fungsi untuk mengakhiri kuis
+        function endQuiz() {
+            // Menampilkan pesan selesai dan hasil akhir
+            showMessage(`Kuis selesai! Skor akhir Anda adalah: ${score}`, 'incorrect');
+            // document.getElementById('gameArea').style.display = 'none'; // Menyembunyikan area permainan
+            // document.getElementById('startButton').style.display = 'block'; // Menampilkan tombol "Mulai" untuk memulai kuis lagi
+        }
+        
+        // Fungsi untuk memeriksa jawaban
+        function checkAnswer() {
+            const playerAnswer = parseInt(document.getElementById('answer').value);
+
+            if (playerAnswer === currentQuestion.correctAnswer) {
+                score += timeLeft; // Tambahkan skor berdasarkan waktu tersisa
+                showMessage('Selamat! Jawaban Anda benar.', 'correct');
+            } else {
+                showMessage('Jawaban salah. Coba lagi!', 'incorrect');
+            }
+
+            document.getElementById('score').textContent = score;
+            // Setelah memberikan umpan balik, lanjutkan ke soal berikutnya
+            setTimeout(nextQuestion, 1500); // Pindah ke soal berikutnya setelah jeda
+            // clearMessage('','');
+        }
+
+        // Fungsi untuk menampilkan pesan
+        function showMessage(msg, type) {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = msg;
+            messageElement.className = `message ${type}`;
+
+            // Hapus pesan setelah 1.5 detik (1500ms)
+            setTimeout(clearMessage, 1500);
+        }
+
+        // Fungsi untuk menampilkan pesan
+        function clearMessage() {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = '';
+            messageElement.className = `message`;
+        }
+
+        // Fungsi untuk melanjutkan ke soal berikutnya
+        function nextQuestion() {
+            generateQuestion();
+            startTimer();
+            document.getElementById('answer').value = '';
+        }
+
+    </script>
 
 </body>
 </html>
