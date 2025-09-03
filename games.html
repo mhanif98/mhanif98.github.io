@@ -109,9 +109,6 @@
         
     </style>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-
 </head>
 
 <body class="navbar-bottom" style="background-image: url(img/thh.png);">
@@ -155,7 +152,7 @@
                                     <p class="timer" id="timer"></p>
                                     <p class="message" id="message"></p>
                                     <div class="scoreboard">
-                                        <h4>Poin: <span id="score">0</span></h4>
+                                        <h4>Score: <span id="score">0</span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -293,11 +290,11 @@
         }
 
         function startTimer() {
-            document.getElementById('timer').textContent = `Sisa Waktu: ${timeLeft}s`;
+            document.getElementById('timer').textContent = `Time Left: ${timeLeft}s`;
 
             timerInterval = setInterval(() => {
                 timeLeft--;
-                document.getElementById('timer').textContent = `Sisa Waktu: ${timeLeft}s`;
+                document.getElementById('timer').textContent = `Time Left: ${timeLeft}s`;
 
                 if (timeLeft <= 0) {
                 clearInterval(timerInterval);
@@ -339,7 +336,7 @@
             
             // Tampilkan pesan akhir dan jangan auto-clear
             const messageElement = document.getElementById('message');
-            messageElement.textContent = `Waktu habis! Skor akhir Anda: ${score}`;
+            messageElement.textContent = `Time's up! Your final score: ${score}`;
             messageElement.className = 'message incorrect';
         }
 
@@ -361,10 +358,9 @@
     </script>
 
     <!-- Link to your js file -->
-    <script type="module" src="js/app.js"></script>
     <script type="module" src="js/time.js"></script>
     <script type="module">
-        import { saveDataScores } from './app.js';
+        import { saveDataScores } from './js/quiz.js';
         window.saveDataScores = saveDataScores; // agar bisa dipakai di global scope
     </script>
 
